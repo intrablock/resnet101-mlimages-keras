@@ -7,19 +7,8 @@ import numpy as np
 import cv2
 import time
 
-class my_add(keras.layers.Layer):
-    def __init__(self, **kwargs):
-        super(my_add, self).__init__(**kwargs)
-    def call(self, inputs):
-        res = inputs[0] + inputs[1]
-        self.output_shapes = K.int_shape(res)
-        return res
-    
-    def compute_output_shape(self, input_shape):
-        return self.output_shapes
-
 model_file = './resnet101_mlimages_11166_no_top.h5'
-model = load_model(model_file, custom_objects={'my_add': my_add})
+model = load_model(model_file)
 result = model.predict(np.zeros((1,224,224,3)))
 print(result)
 # keras
@@ -27,7 +16,7 @@ print(result)
 #     1.7426963 ]]]]
 
 model_file = './resnet101_mlimages_11166_top.h5'
-model = load_model(model_file, custom_objects={'my_add': my_add})
+model = load_model(model_file)
 
 def preprocess(img):
     rawH = float(img.shape[0])
